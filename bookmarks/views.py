@@ -4,19 +4,18 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
+from django.template import Context
+from django.template.loader import get_template
 
 def main_page(request):
-	output = '''
-		<html>
-			<head><title>%s</title></head>
-				<body>
-					<h1>%s</h1><p>%s</p>
-				</body>
-		</html>
-		'''%(
-			'django | Bookmarks',
-			'Welcome to django bookmarks!',
-			'Save and share bookmark here.'
-			)
+	template = get_template('index.html')
+	
+	variable = Context({
+	'head_title' : 'django | bookmark',
+	'page_title' : 'Welcome to django bookmark!',
+	'page_body' : 'Save and share your bookmark here'
+	})
+	
+	output = template.render(variable)
 
 	return HttpResponse(output)
